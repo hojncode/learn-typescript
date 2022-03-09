@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "allowJs": true, // 자바스크립트 허용
+        "checkJs": true, // @ts-check
+        "noImplicitAny": true, // any라도 넣어야함
+    }
+}
