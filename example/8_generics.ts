@@ -10,24 +10,31 @@ function getArray(value: string[]) {
 function getValue<T>(value: T): T {
   return value;
 }
+// getValue<string>('hi').toLocaleUpperCase();
 getValue('hi').toLocaleUpperCase();
+// getValue<number>(100).toLocaleString();
 getValue(100).toLocaleString();
 
 // 제네릭 기본 문법 - 인터페이스
-interface Developer<T> {
+interface Dev<T> {
   name: string;
   age: T;
 }
-const tony: Developer<number> = { name: 'tony', age: 100 };
+const tony: Dev<number> = { name: 'tony', age: 100 };
 
 // 제네릭 타입 제한 - 구체적인 타입
-function getNumberAndArray<T>(value: T): T {
-  value.length; // X
+function getNumberAndArray<T>(value: T[]): T[] {
+  value.length; // O
   return value;
 }
 
-function getNumberAndArray<T>(value: T[]): T[] {
-  value.length; // O
+interface IHasLength {
+  length: number;
+}
+
+// NOTE: 속성가진 인터페이스 확장하여 사용
+function getNumberAndArray2<T extends IHasLength>(value: T): T {
+  value.length;
   return value;
 }
 
@@ -48,6 +55,38 @@ function getAllowedOptions<T extends keyof ShoppingItems>(option: T): T {
     return option;
   }
 }
-getAllowedOptions('nothing');
-// const a = getAllowedOptions('name');
-// a.toUpperCase(); // Name
+// getAllowedOptions('nothing');
+const a = getAllowedOptions('name');
+a.toUpperCase(); // Name
+
+// EXAMPLE: 제네릭 이용 예제
+interface DropdownItem<T> {
+  value: T;
+  selected: boolean;
+}
+
+const emails: DropdownItem<string>[] = [
+  { value: 'aaa@naver.com', selected: true },
+  { value: 'bbb@naver.com', selected: false },
+  { value: 'ccc@naver.com', selected: false }
+]
+
+const numProducts: DropdownItem<number>[] = [
+  { value: 1, selected: true },
+  { value: 2, selected: false },
+  { value: 3, selected: false }
+]
+// 유니온 타입
+function createDropdownItem(item: DropdownItem<string> | DropdownItem<number>) {
+  //..
+}
+// 유니온 타입을 제네릭으로 변경
+function createDropdownItem2<T>(item: DropdownItem<T>) {
+  //..
+}
+
+emails.forEach((email) => createDropdownItem(email))
+numProducts.forEach((prd) => createDropdownItem(prd))
+
+emails.forEach((email) => createDropdownItem2<string>(email))
+numProducts.forEach((prd) => createDropdownItem2<number>(prd))
