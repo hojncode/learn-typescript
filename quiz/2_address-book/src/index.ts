@@ -1,20 +1,4 @@
-interface PhoneNumberDictionary {
-  [phone: string]: {
-    num: number;
-  };
-}
-
-interface Contact {
-  name: string;
-  address: string;
-  phones: PhoneNumberDictionary;
-}
-
-enum Place {
-  Home = 'home',
-  Office = 'office',
-  Studio = 'studio',
-}
+import { Contact, Place } from './type-def'
 
 // api
 // NOTE: Promise<제네릭>
